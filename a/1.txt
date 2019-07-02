@@ -1,0 +1,17 @@
+1. 安装nodejs
+2. 运行node， node -v    ctrl+c
+3. text editor  /notepad++   vs code
+4. hell world
+5. http  / createServer / listen(port)
+6. fs / 同步 *异步* readFile
+
+
+非阻塞式/异步
+fs.readFile    ****************|write|end
+
+
+
+阻塞式/同步
+fs.readFileSync    ****************
+res.write                          ****** 
+res.end()                                ****
