@@ -4,9 +4,20 @@
 </head>
 <body>
 	<form action="http://localhost:8888/user" method="GET">
-		<input type="text" name="user"></input>
-		<input type="text" name="pass"></input>
-		<input type="submit" value="login"></input>
+	User:
+		<input type="text" name="user"></input><br/>
+	Password:
+		<input type="text" name="pass"></input><br/>
+		<input type="submit" name="act" value="reg"></input>&nbsp;&nbsp;&nbsp;
+		<input type="submit" name="act" value="login"></input>
+	</form>
+	<br />
+	<br />
+	
+	<form action="http://localhost:8888/search" method="GET">
+	keyword:
+		<input type="text" name="keyword"></input><br/>
+		<input type="submit" value="search"></input>
 	</form>
 </body>
 </html>
