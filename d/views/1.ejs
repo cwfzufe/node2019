@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>Nodejs</title>
+	</head>
+	<body>
+		<table border="1">		
+			<tr>
+				<td>
+					username
+				</td>				
+				<td>
+					password
+				</td>
+			</tr>
+			<% for(var i = 0; i < name.length; i++){ %>
+			<tr>
+				<td>
+					<%= name[i].username %>
+				</td>
+				<td>
+					<%= name[i].password %>
+				</td>				
+			</tr>
+			<% } %>
+		</table>
+	</body>
+</html>

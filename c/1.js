@@ -4,10 +4,14 @@ const cookieParser = require('cookie-parser')
 const cookieSession = require('cookie-session')
 const app = express()
 
+var arr = [];
+for (var i = 0; i<100000; i++){
+	arr.push('session_str' + Math.random())
+}
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser('jsdksd'))
-app.use(cookieSession({name: 'session',keys: ['key1', 'key2','sfdjkkfjsk', 'dskwje']}))
+app.use(cookieSession({name: 'session',keys: arr}))
 app.use(express.static('./www'))
 
 app.get('/cookie', function(req, res){

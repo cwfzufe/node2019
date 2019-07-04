@@ -1,0 +1,36 @@
+node
+http.createServer().listen()
+fs/同步异步
+login/register
+middlewares:
+	express: web框架
+	body-parser: 解析post
+	cookie-parser: 解析cookie
+	cookie-session: 引入session功能
+	ejs： 后端使用的模板 <% %>   <%= %>   <%- %>
+	mysql: 数据库
+	multer  // enctype=multipart/form-data，解析上传文件
+	module:  模块化代码
+	express route: 路由
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+SQL
+增
+INSERT INTO table_name [(列1, 列2,...)] VALUES (值1, 值2,....)
+
+删
+DELETE FROM 表名称 WHERE 列名称 = 值
+
+改
+UPDATE 表名称 SET 列名称 = 新值[,列名称 = 新值[...]]  WHERE 列名称 = 某值
+
+查
+SELECT 列名称 FROM 表名称 [WHERE ]
