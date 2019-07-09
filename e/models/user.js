@@ -15,5 +15,27 @@ module.exports = {
 				}
 			}
 		})
+	},
+	queryUser : function(user, callback) {
+		dbPool.query('SELECT * FROM users WHERE username=?', [user.username], function(err, results, fiels){
+			if (err) {
+				callback({ok: false, msg: 'database err: '+err.sqlMessage})
+			}else{
+				callback({ok: true, data: results})
+			}
+		})
+	},
+	verifyUser : function(user, callback) {
+		dbPool.query('SELECT * FROM users WHERE username=? AND password=?', [user.username, user.password], function(err, results, fiels){
+			if (err) {
+				callback({ok: false, msg: 'database err: '+err.sqlMessage})
+			}else{
+				if (results.length < 1) {
+					callback({ok: false, msg: 'incorrect username or password.'})
+				} else {
+					callback({ok: true})
+				}
+			}
+		})
 	}
 }

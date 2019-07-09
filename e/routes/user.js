@@ -44,7 +44,38 @@ userRouter.get('/login', function(req, res, next){
 	res.render('login')
 })
 userRouter.post('/login', function(req, res, next){
-	res.send('POST /login')
+	//res.send(req.body)
+	const username = req.body.inputUsername
+	const password = req.body.inputPassword
+	
+	let user = {
+		username: username,
+		password: password
+	}
+	/*
+	userModel.queryUser(user, function(jsonRes){
+		if (jsonRes.ok){
+			if (jsonRes.data.length < 1) {
+				res.send('<script>alert("登录失败！用户不存在！");location="javascript:history.go(-1)"</script>')
+			} else {
+				if (jsonRes.data[0].password != user.password) {
+					res.send('<script>alert("登录失败！用户名或密码错误！");location="javascript:history.go(-1)"</script>')
+				} else {
+					res.send('<script>alert("登录成功！");location="/post"</script>')
+				}
+			}
+		}else {			
+			res.send('<script>alert("登录失败！' + jsonRes.msg + '");location="javascript:history.go(-1)"</script>')
+		}
+	})
+	*/
+	userModel.verifyUser(user, function(jsonRes){
+		if (jsonRes.ok) {
+			res.send('<script>alert("登录成功！");location="/post"</script>')
+		}else {
+			res.send('<script>alert("登录失败！' + jsonRes.msg + '");location="javascript:history.go(-1)"</script>')
+		}
+	})
 })
 
 module.exports=userRouter;
