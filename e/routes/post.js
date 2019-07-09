@@ -16,7 +16,7 @@ postRouter.get('/list/:postid', function(req, res, next){
 })
 
 postRouter.get('/create', function(req, res, next){	
-	res.render('newpost')
+	res.render('createpost')
 })
 
 postRouter.post('/create', function(req, res, next){	
@@ -24,7 +24,7 @@ postRouter.post('/create', function(req, res, next){
 })
 
 postRouter.get('/edit/:postid', function(req, res, next){	
-	res.render('newpost')
+	res.render('editpost')
 })
 
 postRouter.post('/edit', function(req, res, next){	
