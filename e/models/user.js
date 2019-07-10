@@ -33,7 +33,7 @@ module.exports = {
 				if (results.length < 1) {
 					callback({ok: false, msg: 'incorrect username or password.'})
 				} else {
-					callback({ok: true})
+					callback({ok: true, data: results})
 				}
 			}
 		})

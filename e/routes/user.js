@@ -16,6 +16,7 @@ userRouter.post('/reg', function(req, res, next){
 	//res.send(req.body)
 	const username = req.body.inputUsername
 	const password = req.body.inputPassword
+	const email = req.body.inputEmail
 	const sex = req.body.inputSex
 	const avatar = req.files[0].filename + pathLib.parse(req.files[0].originalname).ext
 	fs.rename(req.files[0].path, req.files[0].path + pathLib.parse(req.files[0].originalname).ext, function(err){
@@ -27,6 +28,7 @@ userRouter.post('/reg', function(req, res, next){
 	let user = {
 		username: username,
 		password: password,
+		email: email,
 		sex: sex,
 		avatar: avatar
 	}
@@ -43,6 +45,13 @@ userRouter.post('/reg', function(req, res, next){
 userRouter.get('/login', function(req, res, next){
 	res.render('login')
 })
+
+
+userRouter.get('/logout', function(req, res, next){
+	req.session.user = null
+	res.redirect('/post/list')
+})
+
 userRouter.post('/login', function(req, res, next){
 	//res.send(req.body)
 	const username = req.body.inputUsername
@@ -61,7 +70,7 @@ userRouter.post('/login', function(req, res, next){
 				if (jsonRes.data[0].password != user.password) {
 					res.send('<script>alert("登录失败！用户名或密码错误！");location="javascript:history.go(-1)"</script>')
 				} else {
-					res.send('<script>alert("登录成功！");location="/post"</script>')
+					res.send('<script>alert("登录成功！");location="/post/list"</script>')
 				}
 			}
 		}else {			
@@ -71,7 +80,8 @@ userRouter.post('/login', function(req, res, next){
 	*/
 	userModel.verifyUser(user, function(jsonRes){
 		if (jsonRes.ok) {
-			res.send('<script>alert("登录成功！");location="/post"</script>')
+			req.session.user = jsonRes.data[0]
+			res.send('<script>alert("登录成功！");location="/post/list"</script>')
 		}else {
 			res.send('<script>alert("登录失败！' + jsonRes.msg + '");location="javascript:history.go(-1)"</script>')
 		}

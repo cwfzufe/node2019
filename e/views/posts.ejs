@@ -36,24 +36,8 @@
     <link href="/css/blog.css" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
-	  <header class="blog-header py-3">
-		<div class="row flex-nowrap justify-content-between align-items-center">
-		  <div class="col-4 pt-1">
-			<a class="text-muted" href="https://getbootstrap.com/docs/4.3/examples/blog/#">Subscribe</a>
-		  </div>
-		  <div class="col-4 text-center">
-			<a class="blog-header-logo text-dark" href="https://getbootstrap.com/docs/4.3/examples/blog/#">Large</a>
-		  </div>
-		  <div class="col-4 d-flex justify-content-end align-items-center">
-			<a class="text-muted" href="https://getbootstrap.com/docs/4.3/examples/blog/#">
-			  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"></circle><path d="M21 21l-5.2-5.2"></path></svg>
-			</a>
-			<a class="btn btn-sm btn-outline-secondary" href="https://getbootstrap.com/docs/4.3/examples/blog/#">Sign up</a>
-		  </div>
-		</div>
-	  </header>
-	</div>
+    
+	<%- include("header.ejs") %>
 
 		<main role="main" class="container">
 		  <div class="row">
@@ -62,22 +46,38 @@
 				From the Firehose
 			  </h3>
 
-			<% posts.forEach(function(post){ %>
+			<% posts.slice(0,10).forEach(function(post){ %>
 				<div class="blog-post">
 				<h2 class="blog-post-title"><%= post.title %></h2>
-				<p class="blog-post-meta"><%= post.posttime %> by <a href="https://getbootstrap.com/docs/4.3/examples/blog/#"><%= post.author %></a></p>
+				<p class="blog-post-meta"><span class="posttime"><%= post.posttime %></span> by <a href="https://getbootstrap.com/docs/4.3/examples/blog/#"><%= post.author %></a>&nbsp;<%if (user != null && user.username==post.author) {%><a href="/post/edit/<%=post.Id%>">Edit</a><%}%></p>
 
 				<div class="blog-content">
 				<%= post.content %>
 				</div>
 				
 			  </div><!-- /.blog-post -->
-			<% }) %>
-			  
-
+			<% }) %>		
+			<script> 
+				var spanPosttimes = document.getElementsByClassName('posttime')
+				for (var i = 0; i < spanPosttimes.length; i++){
+					console.log(spanPosttimes[i])
+					spanPosttimes[i].innerText = new Date(spanPosttimes[i].innerText).toLocaleString();
+				}
+			</script>			
+			
 			  <nav class="blog-pagination">
-				<a class="btn btn-outline-primary" href="https://getbootstrap.com/docs/4.3/examples/blog/#">Older</a>
-				<a class="btn btn-outline-secondary disabled" href="https://getbootstrap.com/docs/4.3/examples/blog/#" tabindex="-1" aria-disabled="true">Newer</a>
+			  <%if (posts.length>10){%>
+				<a class="btn btn-outline-primary" href="/post/list?page=<%=Number(page)+1%>">Older</a>
+				<%}else{%>
+				<a class="btn btn-outline-secondary disabled" href="">Older</a>
+				<%}%>
+				
+				
+			  <%if (page>0){%>
+				<a class="btn btn-outline-primary" href="/post/list?page=<%=page-1%>" tabindex="-1" aria-disabled="true">Newer</a>
+				<%}else{%>
+				<a class="btn btn-outline-secondary disabled" href="" tabindex="-1" aria-disabled="true">Newer</a>
+				<%}%>
 			  </nav>
 
 			</div><!-- /.blog-main -->

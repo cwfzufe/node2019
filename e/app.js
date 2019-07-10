@@ -20,6 +20,10 @@ app.use(bodyParser.urlencoded({extended: true}))
 // 设置上传文件处理中间件
 app.use(multer({dest: './public/upload'}).any())
 // 处理接口路由
+app.use(function(req,res,next){
+	res.locals.user = req.session.user
+	next()
+}) 
 app.use('/user', require('./routes/user'))
 app.use('/post', require('./routes/post'))
 // 静态文件目录
