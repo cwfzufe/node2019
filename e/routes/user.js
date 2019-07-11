@@ -43,7 +43,8 @@ userRouter.post('/reg', function(req, res, next){
 })
 
 userRouter.get('/login', function(req, res, next){
-	res.render('login')
+	console.log(req.cookies)
+	res.render('login', {cookies:req.cookies})
 })
 
 
@@ -53,9 +54,9 @@ userRouter.get('/logout', function(req, res, next){
 })
 
 userRouter.post('/login', function(req, res, next){
-	//res.send(req.body)
 	const username = req.body.inputUsername
 	const password = req.body.inputPassword
+	const remember = (req.body.rememberMe != null)
 	
 	let user = {
 		username: username,
@@ -80,6 +81,10 @@ userRouter.post('/login', function(req, res, next){
 	*/
 	userModel.verifyUser(user, function(jsonRes){
 		if (jsonRes.ok) {
+			if (remember) {
+				res.cookie('username', username)
+				res.cookie('password', password)
+			}
 			req.session.user = jsonRes.data[0]
 			res.send('<script>alert("登录成功！");location="/post/list"</script>')
 		}else {
