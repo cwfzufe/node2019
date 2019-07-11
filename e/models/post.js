@@ -46,5 +46,19 @@ module.exports = {
 				}
 			}
 		})
+	},
+	
+	likePost : function(postid, callback) {
+		dbPool.query('UPDATE posts SET likecount=likecount+1 WHERE Id=?', postid, function(err, results, fiels){
+			if (err) {
+				callback({ok: false, msg: 'database err: '+err.sqlMessage, data: []})
+			}else{
+				if (results.affectedRows != 1) {
+					callback({ok: false, msg: 'like post failed.'})
+				}else{
+					callback({ok: true})
+				}
+			}
+		})
 	}	
 }

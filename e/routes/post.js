@@ -4,10 +4,10 @@ const postModel = require('../models/post')
 var postRouter = express.Router();
 
 postRouter.get('/list', function(req, res, next){
-	var page = req.query.page;
-	if (page == null) page = 0
+	var page = req.query.page || 0
+	req.session.haslike = req.session.haslike || []
 	postModel.queryPosts(page, function(jsonRes){
-		res.render('posts', {posts: jsonRes.data, page: page})
+		res.render('posts', {posts: jsonRes.data, page: page, haslike: req.session.haslike})
 	})
 })
 
@@ -49,6 +49,30 @@ postRouter.get('/edit/:postid', function(req, res, next){
 			res.send('<script>alert("查询失败！' + jsonRes.msg + '");location="javascript:history.go(-1)"</script>')
 		}
 	})
+})
+
+postRouter.get('/like', function(req, res, next){
+	var postid = Number(req.query.postid)
+	req.session.haslike = req.session.haslike || []
+	//console.log(req.session)
+	if (req.session.haslike.indexOf(postid)>-1) {
+		res.status(400).send({msg: 'You have liked!'})
+	} else {
+		postModel.likePost(postid, function(jsonRes){
+			if (jsonRes.ok){
+				req.session.haslike.push(postid)
+				postModel.queryPost(postid, function(jsonRes){
+					if (jsonRes.ok && jsonRes.data.length>0){
+						res.send({post: jsonRes.data[0]})
+					} else {
+						res.send({msg: 'failed to query.'})
+					}
+				})
+			} else {
+				res.send({msg: 'failed to like.'})
+			}
+		})
+	}
 })
 
 postRouter.post('/edit', function(req, res, next){	
